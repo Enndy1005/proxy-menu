@@ -10,7 +10,7 @@
         "settingsMigrator": "settings_migrator.js",
         "reloadable": true
     },
-    "servers": ["https://raw.githubusercontent.com/Enndy1005/proxy-menu-eng/main/"],
+    "servers": ["https://raw.githubusercontent.com/Enndy1005/proxy-menu-eng/master/"],
     "version": "11/11/2024",
     "disableAutoUpdate": false
 }
