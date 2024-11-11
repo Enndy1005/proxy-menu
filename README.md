@@ -9,7 +9,7 @@ Toolbox(/8) | Hotkey | Command description | Описание
 **m** |**Ctrl+Shift+M** |Open menu, also you can use  | Для вызова меню используйте сочитание
 **m $dang** |**Ctrl+Alt+H** | Vanguard teleport, also you can use | Для вызова телепорта по авангарду к данжам
 **m $setting** | **Ctrl+Alt+S** | Other settings menu | Управляет доп. функциями и настройками меню
-**m hotkey (write your keybind)** | Hotkey for open proxy menu | Хоткей для открытия меню
+**m hotkey (write your keybind)** | - |Hotkey for open proxy menu | Хоткей для открытия меню
 
 ![image](https://github.com/user-attachments/assets/3c868fd1-0d67-4854-8515-a0e6ab5718a3)
 ![image](https://github.com/user-attachments/assets/3ae872b8-e37e-477f-8fb7-bdffbd85d849)
