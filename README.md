@@ -1,3 +1,7 @@
+***Translation and adaptation into English***
+
+Original module in Russian https://github.com/FrostSigil/menu/
+
 **The number of menu items depends on the installed modules.**
 (If the merchants in the menu do not work, apparently there was a server restart, you need to visit them on patrol
 near the vanguard and the patrol forge and the great square of freedom as well as Balderon)
