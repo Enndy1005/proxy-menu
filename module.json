@@ -1,0 +1,16 @@
+{
+    "name": "proxy-menu",
+    "author": "Enndy1005",
+    "description": "Proxy Menu",
+    "options": {
+        "cliName": "Proxy Menu(ENG))",
+        "guiName": "Proxy Menu(ENG)",
+        "settingsVersion": 21,
+        "settingsFile": "config.json",
+        "settingsMigrator": "settings_migrator.js",
+        "reloadable": true
+    },
+    "servers": ["https://raw.githubusercontent.com/Enndy1005/proxy-menu-eng/main/"],
+    "version": "11/11/2024",
+    "disableAutoUpdate": false
+}
