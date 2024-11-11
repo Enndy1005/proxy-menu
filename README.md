@@ -2,6 +2,7 @@
 (If the merchants in the menu do not work, apparently there was a server restart, you need to visit them on patrol
 near the vanguard and the patrol forge and the great square of freedom as well as Balderon)
 just be near the NPC and they will work.
+
 ## Commands
 Toolbox(/8) | Hotkey | Command description | Описание
 --- | --- | --- | ---
@@ -9,8 +10,9 @@ Toolbox(/8) | Hotkey | Command description | Описание
 **m $dang** |**Ctrl+Alt+H** | Vanguard teleport, also you can use | Для вызова телепорта по авангарду к данжам
 **m $setting** | **Ctrl+Alt+S** | Other settings menu | Управляет доп. функциями и настройками меню
 
-
-
+![image](https://github.com/user-attachments/assets/795d368e-1c89-467e-b0e1-2f4e892ad36b)
+![image](https://github.com/user-attachments/assets/02c38ea5-52d1-4f23-91b3-d466139dc4ec)
+![image](https://github.com/user-attachments/assets/a96da7b8-cfda-4bff-9d2e-f7eb253fc8e2)
 
 ## Supports mods
 Supports partial control of the following modules: 
