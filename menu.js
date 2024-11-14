@@ -118,6 +118,7 @@ module.exports.categories = {
 		{ ifcmd: "macro" },
 		{ command: "proxy reload macro-maker", name: "reload macro", color: c.r },
 		{ command: "macro", name: "macro on/off", color: c.y },
+		{ command: "pinger", name: "pinger on/off", color: c.y, ifcmd: "pinger"},
 		{},
 		{ command: "u ui", name: "Unicast", color: c.p, ifcmd: "u" },
 		{ command: "fps", name: "FPS Menu", color: c.y, ifcmd: "fps" },
@@ -205,47 +206,7 @@ module.exports.pages = {
 			{ command: "m et 7003 210", name: "Beach Party", color: c.o }
 		]
 	},
-	Merchant: {
-		Scaner: [
-			{ command: "m et 98311 9069", name: "tp to Balderon", color: c.o },
-			{ command: "mm", name: "Resp Time", color: c.y, ifcmd: "bh" },
-			{ command: "mm scan", name: "Scan", color: c.g, ifcmd: "bh" },
-			{ command: "mm stop", name: "Stop", color: c.r, ifcmd: "bh" },
-			{ command: "mm loc", name: "Location", color: c.b, ifcmd: "bh" },
-			{},
-			{ command: "mm to 1", name: "1", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 2", name: "2", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 3", name: "3", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 4", name: "4", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 5", name: "5", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 6", name: "6", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 7", name: "7", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 8", name: "8", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 9", name: "9", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 10", name: "10", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 11", name: "11", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 12", name: "12", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 13", name: "13", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 14", name: "14", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 15", name: "15", color: c.r, ifcmd: "bh" },
-			{ command: "mm to 16", name: "16", color: c.r, ifcmd: "bh" }
-		],
-		Окрестности: [
-			{ command: "veracun", name: "Веракун (Окресности Велики)", color: c.y },
-			{ command: "tp -8742 -4778 1040 7005", name: "Велика", color: c.gr, ifcmd: "tp" },
-			{},
-			{ command: "alluman", name: "Аллума (Окрестности Аллемантеи)", color: c.y },
-			{ command: "tp -21693 17682 2640 2", name: "Аллемантея", color: c.gr, ifcmd: "tp" },
-			{},
-			{ command: "kaidera", name: "Кай Тера (Окрестности Кайатора)", color: c.y },
-			{ command: "tp -3454 -12176 3090 3", name: "Кайатор", color: c.gr, ifcmd: "tp" },
-			{},
-			{ command: "vardung", name: "Бардун (Остров Зари)", color: c.lp },
-			{ command: "tp 73380 -72629 -1140 13", name: "Остров Зари", color: c.gr, ifcmd: "tp" },
-			{},
-			{ command: "mm scan", name: "Поиск", color: c.g, ifcmd: "bh" }
-		],		
-	},
+	
 	Loger: {
 		Mods: [
 			{ command: "proxy reload packetslogger", name: "Logger reload", color: c.p, ifcmd: "logs" },
