@@ -1,11 +1,16 @@
-***Translation and adaptation into English***
+***Графическое меню для частичного управления модулями/ /Graphic menu for partial control of modules***
 
-Original module in Russian https://github.com/FrostSigil/menu/
+Original module only in Russian https://github.com/FrostSigil/menu/
 
 **The number of menu items depends on the installed modules.**
 (If the merchants in the menu do not work, apparently there was a server restart, you need to visit them on patrol
 near the vanguard and the patrol forge and the great square of freedom as well as Balderon)
 just be near the NPC and they will work.
+
+**Количество пунктов меню зависит от установленных модулей.**
+(Если торговцы в меню не работают, видимо был рестарт сервера, нужно посетить их в патруле
+возле авангарда и патрульной кузницы и великой площади свободы а ​​также Балдерона)
+просто будьте рядом с NPC и они будут работать.
 
 ## Commands
 Toolbox(/8) | Hotkey | Command description | Описание
