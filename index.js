@@ -31,219 +31,249 @@ function addOpcodeAndDefinition(mod, name, version = null, definition = null) {
 	}
 }
 
-module.exports = function ProxyMenu(mod) {
-	const cmd = mod.command || mod.require.command;
-	const COMMAND = "m";
-	const menu = require("./menu");
-	const { player } = mod.require.library;
-	const keybinds = new Set();
-	const path = jsonRequire("path");
-	const fs = jsonRequire("fs");
-	const NecklaceIDs = [20715, 20716, 20717, 20752];
-	const Message2 = "You are wearing the Resource Gathering Amulet!";
-	const WhiskerIDs = [206100, 206101, 206102, 206103, 206104, 206105, 206106, 206107, 206108, 206109];
-	const Message = "You're wearing a fisherman's whiskers!";
+const fs = require('fs'); const path = require('path'); const toolboxConfigPath = path.resolve(__dirname, '..', '..', 'config.json'); // путь к файлу config.json в корневой папке Toolbox 
+ 
+let toolboxConfig = {}; if (fs.existsSync(toolboxConfigPath)) { toolboxConfig = JSON.parse(fs.readFileSync(toolboxConfigPath)); } 
 
-	const gui = {
-		parse(array, title, d = "") {
-			for (let i = 0; i < array.length; i++) {
-				if (d.length >= 20000) {
-					d += "Gui data limit exceeded, some values may be missing.";
-					break;
-				}
-				if (array[i].command) d += `<a href="admincommand:/@${array[i].command}">${array[i].text}</a>`;
-				else if (!array[i].command) d += `${array[i].text}`;
-				else continue;
-			}
-			mod.send("S_ANNOUNCE_UPDATE_NOTIFICATION", 1, {
-				id: 0,
-				title: title,
-				body: d
-			});
-		}
-	};
+let language = (toolboxConfig.uilanguage) ? toolboxConfig.uilanguage.toLowerCase() : 'en'; 
 
-	let bookmarks = new Map();
-	let debug = false;
-	let debugData = [];
-	let premiumAvailable = false;
-	let currentChannel = 0;
-	let changeZoneEvent = null;
-	let locationEvent = null;
-	let isDrop = false;
-	let curHp = 0;
-	let maxHp = 0;
-	let blockselectuser = false;
-	let blockselectusertimer = null;
-	let walkW = 0;
-	let lasttimemoved = Date.now();
-	let contract = null;
-	let contractType = null;
-	let opening = false;
-	let gachaId = null;
+const translations = { 
+	en: { 	
+		resourceGatheringAmulet: "You are wearing the Resource Gathering Amulet!", 
+		fishermansWhiskers: "You're wearing a fisherman whiskers!", 
+		/*premiumSlotEnabled: "Add. menu icons on the premium panel: Enabled", 
+		premiumSlotDisabled: "Add. menu icons on the premium panel: Disabled", 
+		quickRelogEnabled: "Quick relog on characters: Enabled", 
+		quickRelogDisabled: "Quick relog on characters: Disabled", 
+		debugEnabled: "Debug mode Enabled.", 
+		debugDisabled: "Debug mode Disabled."*/
+	}, 
+	ru: { 		 
+		resourceGatheringAmulet: "Вы носите амулет сбора ресурсов!", 
+		fishermansWhiskers: "Вы носите усы рыбака!", 
+		/*premiumSlotEnabled: "Добавление значков меню на премиум панель: Включено", 
+		premiumSlotDisabled: "Добавление значков меню на премиум панель: Отключено", 
+		quickRelogEnabled: "Быстрая смена персонажей: Включено", 
+		quickRelogDisabled: "Быстрая смена персонажей: Отключено", 
+		debugEnabled: "Режим отладки Включён.", 
+		debugDisabled: "Режим отладки Отключён."*/
+	} 
+}; 
+		const langStrings = translations[language] || translations.en; 		
+		const menu = (language === 'ru') ? require('./menu_ru') : require('./menu');
 
-	if (mod.majorPatchVersion >= 94) {
-		// enable padding
-		[
-			"C_REQUEST_REPUTATION_STORE_TELEPORT"
-		].forEach(name =>
-			mod.dispatch.addOpcode(name, mod.dispatch.connection.metadata.maps.protocol[name], true)
-		);
-	}
+		module.exports = function ProxyMenu(mod) { 
+			const cmd = mod.command || mod.require.command; 
+			const COMMAND = "m"; 
+			const { player } = mod.require.library; 
+			const keybinds = new Set(); 
+			const path = require("path"); 
+			const fs = require("fs"); 
+			const NecklaceIDs = [20715, 20716, 20717, 20752]; 
+			const Message2 = langStrings.resourceGatheringAmulet; 
+			const WhiskerIDs = [206100, 206101, 206102, 206103, 206104, 206105, 206106, 206107, 206108, 206109]; 
+			const Message = langStrings.fishermansWhiskers;
 
-	mod.dispatch.addDefinition("C_REQUEST_CONTRACT", 50, [
-		["name", "refString"],
-		["data", "refBytes"],
-		["type", "int32"],
-		["target", "int64"],
-		["value", "int32"],
-		["name", "string"],
-		["data", "bytes"]
-	]);
+    const gui = {
+        parse(array, title, d = "") {
+            for (let i = 0; i < array.length; i++) {
+                if (d.length >= 20000) {
+                    d += "Gui data limit exceeded, some values may be missing.";
+                    break;
+                }
+                if (array[i].command) d += `<a href="admincommand:/@${array[i].command}">${array[i].text}</a>`;
+                else if (!array[i].command) d += `${array[i].text}`;
+                else continue;
+            }
+            mod.send("S_ANNOUNCE_UPDATE_NOTIFICATION", 1, {
+                id: 0,
+                title: title,
+                body: d
+            });
+        }
+    };
 
-	mod.dispatch.addDefinition("C_REQUEST_REPUTATION_STORE_TELEPORT", 2, [
-	]);
+    let bookmarks = new Map();
+    let debug = false;
+    let debugData = [];
+    let premiumAvailable = false;
+    let currentChannel = 0;
+    let changeZoneEvent = null;
+    let locationEvent = null;
+    let isDrop = false;
+    let curHp = 0;
+    let maxHp = 0;
+    let blockselectuser = false;
+    let blockselectusertimer = null;
+    let walkW = 0;
+    let lasttimemoved = Date.now();
+    let contract = null;
+    let contractType = null;
+    let opening = false;
+    let gachaId = null;
 
-	mod.dispatch.addDefinition("S_VOTE_DISMISS_PARTY", 1, [
-		["accept", "byte"]
-	]);
+    if (mod.majorPatchVersion >= 94) {
+        // enable padding
+        [
+            "C_REQUEST_REPUTATION_STORE_TELEPORT"
+        ].forEach(name =>
+            mod.dispatch.addOpcode(name, mod.dispatch.connection.metadata.maps.protocol[name], true)
+        );
+    }
 
-	mod.dispatch.addDefinition("C_VOTE_DISMISS_PARTY", 1, [
-		["accept", "byte"]
-	]);
+    mod.dispatch.addDefinition("C_REQUEST_CONTRACT", 50, [
+        ["name", "refString"],
+        ["data", "refBytes"],
+        ["type", "int32"],
+        ["target", "int64"],
+        ["value", "int32"],
+        ["name", "string"],
+        ["data", "bytes"]
+    ]);
 
-	mod.game.initialize(["party", "me.abnormalities", "inventory"]);
+    mod.dispatch.addDefinition("C_REQUEST_REPUTATION_STORE_TELEPORT", 2, [
+    ]);
 
-	if (menu.pages !== undefined) {
-		Object.values(menu.pages).forEach(page =>
-			bindHotkeys(page)
-		);
-	}
+    mod.dispatch.addDefinition("S_VOTE_DISMISS_PARTY", 1, [
+        ["accept", "byte"]
+    ]);
 
-	bindHotkeys(menu.categories);
-	keybinds.add(mod.settings.hotkey);
-	globalShortcut.register(mod.settings.hotkey, () => show());
+    mod.dispatch.addDefinition("C_VOTE_DISMISS_PARTY", 1, [
+        ["accept", "byte"]
+    ]);
 
-	addOpcodeAndDefinition(mod, "C_REQUEST_EVENT_MATCHING_TELEPORT", 0, [
-		["unk1", "uint32"],
-		["quest", "uint32"],
-		["instance", "uint32"],
-		["unk2", "uint32"],
-		["unk3", "uint32"]
-	]);
+    mod.game.initialize(["party", "me.abnormalities", "inventory"]);
 
-	mod.game.me.on("change_zone", () => {
-		if (mod.game.me.inDungeon) {
-			if (mod.game.inventory.findInEquipment(WhiskerIDs)) {
-				mod.setTimeout(() => {
-					mod.send("S_CHAT", 3, {
-						channel: 21,
-						authorName: "",
-						message: Message
-					});
-				}, 10000);
-			}
-			if (mod.game.inventory.findInEquipment(NecklaceIDs)) {
-				mod.setTimeout(() => {
-					mod.send("S_CHAT", 3, {
-						channel: 21,
-						authorName: "",
-						message: Message2
-					});
-				}, 15000);
-			}
-		}
-	});
+    if (menu.pages !== undefined) {
+        Object.values(menu.pages).forEach(page =>
+            bindHotkeys(page)
+        );
+    }
 
-	mod.game.me.on("change_zone", changeZoneEvent = zone => {
-		loadZone(zone);
-	});
+    bindHotkeys(menu.categories);
+    keybinds.add(mod.settings.hotkey);
+    globalShortcut.register(mod.settings.hotkey, () => show());
 
-	mod.hook("C_CONFIRM_UPDATE_NOTIFICATION", 1, { order: 100010 }, () => false);
+    addOpcodeAndDefinition(mod, "C_REQUEST_EVENT_MATCHING_TELEPORT", 0, [
+        ["unk1", "uint32"],
+        ["quest", "uint32"],
+        ["instance", "uint32"],
+        ["unk2", "uint32"],
+        ["unk3", "uint32"]
+    ]);
 
-	mod.hook("C_ADMIN", 1, { order: 100010, filter: { fake: false, silenced: false, modified: null } }, event => {
-		if (event.command.includes(";")) {
-			event.command.split(";").forEach(cmd => {
-				try {
-					mod.command.exec(cmd);
-				} catch (e) {
-					return;
-				}
-			});
-			return false;
-		}
-	});
+    mod.game.me.on("change_zone", () => {
+        if (mod.game.me.inDungeon) {
+            if (mod.game.inventory.findInEquipment(WhiskerIDs)) {
+                mod.setTimeout(() => {
+                    mod.send("S_CHAT", 3, {
+                        channel: 21,
+                        authorName: "",
+                        message: Message
+                    });
+                }, 10000);
+            }
+            if (mod.game.inventory.findInEquipment(NecklaceIDs)) {
+                mod.setTimeout(() => {
+                    mod.send("S_CHAT", 3, {
+                        channel: 21,
+                        authorName: "",
+                        message: Message2
+                    });
+                }, 15000);
+            }
+        }
+    });
 
-	mod.hook("S_PLAYER_STAT_UPDATE", mod.majorPatchVersion === 92 ? 13 : 14, e => {
-		curHp = e.hp;
-		maxHp = e.maxHp;
-	});
+    mod.game.me.on("change_zone", changeZoneEvent = zone => {
+        loadZone(zone);
+    });
 
-	mod.hook("S_CREATURE_CHANGE_HP", 6, e => {
-		if (e.target !== mod.game.me.gameId) return;
-		curHp = e.curHp;
-		maxHp = e.maxHp;
-	});
+    mod.hook("C_CONFIRM_UPDATE_NOTIFICATION", 1, { order: 100010 }, () => false);
 
-	mod.hook("C_PLAYER_LOCATION", 5, { filter: { fake: null } }, (event, fake) => {
-		locationEvent = event;
-		if (!fake) {
-			if (!isDrop && (event.type === 2 || event.type === 10)) return false;
-		}
-	});
+    mod.hook("C_ADMIN", 1, { order: 100010, filter: { fake: false, silenced: false, modified: null } }, event => {
+        if (event.command.includes(";")) {
+            event.command.split(";").forEach(cmd => {
+                try {
+                    mod.command.exec(cmd);
+                } catch (e) {
+                    return;
+                }
+            });
+            return false;
+        }
+    });
 
-	mod.hook("C_REQUEST_EVENT_MATCHING_TELEPORT", 0, event => {
-		if (debug) console.log("C_REQUEST_EVENT_MATCHING_TELEPORT:", event);
-	});
+    mod.hook("S_PLAYER_STAT_UPDATE", mod.majorPatchVersion === 92 ? 13 : 14, e => {
+        curHp = e.hp;
+        maxHp = e.maxHp;
+    });
 
-	mod.hook("S_PREMIUM_SLOT_OFF", "raw", () => !mod.settings.premiumSlotEnabled);
+    mod.hook("S_CREATURE_CHANGE_HP", 6, e => {
+        if (e.target !== mod.game.me.gameId) return;
+        curHp = e.curHp;
+        maxHp = e.maxHp;
+    });
 
-	mod.hook("S_RETURN_TO_LOBBY", "raw", () => {
-		premiumAvailable = false;
-	});
+    mod.hook("C_PLAYER_LOCATION", 5, { filter: { fake: null } }, (event, fake) => {
+        locationEvent = event;
+        if (!fake) {
+            if (!isDrop && (event.type === 2 || event.type === 10)) return false;
+        }
+    });
 
-	mod.hook("S_LOAD_TOPO", "raw", () => {
-		if (premiumAvailable || !mod.settings.premiumSlotEnabled || menu.premium.length === 0) return;
-		mod.send("S_PREMIUM_SLOT_DATALIST", 2, {
-			sets: [
-				{ id: 0, inventory: [] }
-			]
-		});
-	});
+    mod.hook("C_REQUEST_EVENT_MATCHING_TELEPORT", 0, event => {
+        if (debug) console.log("C_REQUEST_EVENT_MATCHING_TELEPORT:", event);
+    });
 
-	mod.hook("S_PREMIUM_SLOT_DATALIST", 2, { order: Infinity, filter: { fake: null } }, event => {
-		if (!mod.settings.premiumSlotEnabled || menu.premium.length === 0 || event.sets.length === 0) return;
-		premiumAvailable = true;
-		menu.premium.forEach(slot => {
-			if (slot.class) {
-				const classes = (Array.isArray(slot.class) ? slot.class : [slot.class]);
-				if (!classes.includes(mod.game.me.class)) {
-					return;
-				}
-			}
-			if (slot.ifcmd && !mod.command.base.hooks.has(slot.ifcmd.toLocaleLowerCase())) {
-				return;
-			}
-			if (slot.ifnocmd && mod.command.base.hooks.has(slot.ifnocmd.toLocaleLowerCase())) {
-				return;
-			}
-			if (!mod.command.base.hooks.has(slot.command.split(" ")[0])) {
-				return;
-			}
-			event.sets[0].inventory.push({
-				slot: event.sets[0].inventory.length + 1,
-				unk1: 1,
-				type: 1,
-				id: slot.id,
-				amount: -1,
-				cooldown: "30000",
-				cooldownRemaining: "0",
-				unk2: true
-			});
-		});
-		return true;
-	});
+    mod.hook("S_PREMIUM_SLOT_OFF", "raw", () => !mod.settings.premiumSlotEnabled);
 
+    mod.hook("S_RETURN_TO_LOBBY", "raw", () => {
+        premiumAvailable = false;
+    });
+
+    mod.hook("S_LOAD_TOPO", "raw", () => {
+        if (premiumAvailable || !mod.settings.premiumSlotEnabled || menu.premium.length === 0) return;
+        mod.send("S_PREMIUM_SLOT_DATALIST", 2, {
+            sets: [
+                { id: 0, inventory: [] }
+            ]
+        });
+    });
+
+    mod.hook("S_PREMIUM_SLOT_DATALIST", 2, { order: Infinity, filter: { fake: null } }, event => {
+        if (!mod.settings.premiumSlotEnabled || menu.premium.length === 0 || event.sets.length === 0) return;
+        premiumAvailable = true;
+        menu.premium.forEach(slot => {
+            if (slot.class) {
+                const classes = (Array.isArray(slot.class) ? slot.class : [slot.class]);
+                if (!classes.includes(mod.game.me.class)) {
+                    return;
+                }
+            }
+            if (slot.ifcmd && !mod.command.base.hooks.has(slot.ifcmd.toLocaleLowerCase())) {
+                return;
+            }
+            if (slot.ifnocmd && mod.command.base.hooks.has(slot.ifnocmd.toLocaleLowerCase())) {
+                return;
+            }
+            if (!mod.command.base.hooks.has(slot.command.split(" ")[0])) {
+                return;
+            }
+            event.sets[0].inventory.push({
+                slot: event.sets[0].inventory.length + 1,
+                unk1: 1,
+                type: 1,
+                id: slot.id,
+                amount: -1,
+                cooldown: "30000",
+                cooldownRemaining: "0",
+                unk2: true
+            });
+        });
+        return true;
+    });
+    
 	mod.hook("C_USE_PREMIUM_SLOT", 1, event => {
 		if (menu.premium.length === 0) return;
 		let used = false;
