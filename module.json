@@ -3,8 +3,8 @@
     "author": "Enndy1005",
     "description": "Proxy Menu",
     "options": {
-        "cliName": "Proxy Menu(ENG))",
-        "guiName": "Proxy Menu(ENG)",
+        "cliName": "Proxy Menu",
+        "guiName": "Proxy Menu",
         "settingsVersion": 21,
         "settingsFile": "config.json",
         "settingsMigrator": "settings_migrator.js",
