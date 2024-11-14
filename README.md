@@ -1,8 +1,11 @@
 ***Графическое меню для частичного управления модулями***
+
 ***Graphic menu for partial control of modules***
 
 **Меню поддерживает русский и английский язык, зависимости от языка выбранного в toolbox.** 
+
 **The menu supports Russian and English, depending on the language selected in the toolbox.**
+
 Original module only in Russian https://github.com/FrostSigil/menu/
 
 **The number of menu items depends on the installed modules.**
