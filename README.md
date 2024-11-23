@@ -50,3 +50,6 @@ Fps Utils | | https://github.com/tera-private-mods/fps-utils
 Auto Loot | | https://github.com/tera-private-mods/auto-loot
 Auto Guildquest | Автосдача квестов гильдии | https://github.com/tera-private-mods/Auto-Guildquest
 Wings of Darkan | Авто призывание крыльев даркана | https://github.com/FrostSigil/Darkhan-Wings
+Macro maker | Module to help you make macros for any class, using only AHK with no other dependency. | https://github.com/hsdn/macro-maker
+Pinger module | Module for displaying the current ping in the game | https://github.com/Enndy1005/tera-pinger-module
+TEN | [Menma's TERA] Ensures that your Everful Nostrum buffs are up 100% of the time. | https://github.com/tera-private-mods/true-everful-nostrum-menma
