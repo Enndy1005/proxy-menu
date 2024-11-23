@@ -113,7 +113,8 @@ module.exports.categories = {
 		{ command: "macro", name: "макро вкл/откл", color: c.y },
 		{},		
 		{ command: "pr", name: "ПР вкл/откл", color: c.y, ifcmd: "pr"},		
-		{ command: "pinger", name: "пингер вкл/откл", color: c.y, ifcmd: "pinger"},
+		{ command: "pinger toggle", name: "пингер вкл/откл", color: c.y, ifcmd: "pinger"},
+		{ command: "pinger color", name: "пингер цвет", color: c.y, ifcmd: "pinger"},
 		{},
 		{ command: "u ui", name: "Unicast", color: c.p, ifcmd: "u" },
 		{ command: "fps", name: "FPS Menu", color: c.y, ifcmd: "fps" },
@@ -201,8 +202,52 @@ module.exports.pages = {
 			{},
 			{ command: "m et 7003 210", name: "Пляжная Вечеринка (Beach Party)", color: c.o }
 		]
-	},	
-			
+	},
+
+	Loger: {
+		Mods: [
+			{ command: "proxy reload packetslogger", name: "Logger reload", color: c.p, ifcmd: "logs" },
+			{ ifcmd: "logs" },
+			{ command: "logc", name: "LOG C", color: c.bl, ifcmd: "logc" },
+			{ command: "logs", name: "LOG S", color: c.o, ifcmd: "logs" },
+			{ ifcmd: "ten" },
+			{ command: "ten on", name: "Автоюз расходки on", color: c.g, ifcmd: "ten" },
+			{ command: "ten off", name: "Автоюз расходки off", color: c.r, ifcmd: "ten" },
+			{},
+			{ command: "ten ui", name: "Автоюз расходки menu", color: c.y, ifcmd: "ten" }
+		],
+		Teleport: [
+			{ command: "tp zone", name: "Телепорт", color: c.b, ifcmd: "tp" },
+			{ command: "tp to", name: "Зона", color: c.r, ifcmd: "tp" },
+			{ ifcmd: "tp" },
+			{ command: "just blink 100", name: "Блинк вперед", keybind: "ctrl+alt+w" },
+			{ command: "just up 500", name: "Блинк вверх" },
+			{ command: "just down 250", name: "Блинк вниз" },
+			{ command: "tp drop -1", name: "Убить себя", color: c.r, ifcmd: "tp" },
+			{ ifcmd: "tp" },
+			{ command: "tp drop 1", name: "1%", color: c.r, ifcmd: "tp" },
+			{ command: "tp drop 10", name: "10%", color: c.r, ifcmd: "tp" },
+			{ command: "tp drop 20", name: "20%", color: c.o, ifcmd: "tp" },
+			{ command: "tp drop 30", name: "30%", color: c.o, ifcmd: "tp" },
+			{ command: "tp drop 40", name: "40%", color: c.y, ifcmd: "tp" },
+			{ command: "tp drop 50", name: "50%", color: c.y, ifcmd: "tp" },
+			{ command: "tp drop 60", name: "60%", color: c.lb, ifcmd: "tp" },
+			{ command: "tp drop 70", name: "70%", color: c.lb, ifcmd: "tp" },
+			{ command: "tp drop 80", name: "80%", color: c.lg, ifcmd: "tp" },
+			{ command: "tp drop 90", name: "90%", color: c.g, ifcmd: "tp" }
+		],
+		Channels: [
+			{ command: "m cha 1", name: "(_1_)", color: c.g },
+			{ command: "m cha 2", name: "(_2_)", color: c.g },
+			{ command: "m cha 3", name: "(_3_)", color: c.g },
+			{ command: "m cha 4", name: "(_4_)", color: c.g },
+			{ command: "m cha 5", name: "(_5_)", color: c.lv },
+			{ command: "m cha 6", name: "(_6_)", color: c.lv },
+			{ command: "m cha 7", name: "(_7_)", color: c.lb },
+			{ command: "m cha 8", name: "(_8_)", color: c.lb }
+		],		
+	},
+
 	setting: {
 		Настройки: [
 			{ command: "m premium", name: "Доп. кнопки VIP панели", color: c.y },
